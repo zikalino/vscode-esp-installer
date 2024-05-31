@@ -1,0 +1,137 @@
+type: layout-form
+id: root
+header:
+  - type: header
+    title: ESP Installer
+    logo: espressif.svg
+form:
+  - type: fieldset
+    id: main_fieldset
+    subitems:
+      - type: row
+        id: row_1
+        subitems:
+          - type: combo
+            id: sdk_type
+            name: Select SDK
+            items:
+              - ESP-IDF
+              - Rust
+              - Zephyr
+              - TinyGo
+  - type: fieldset
+    id: fieldset_esp_idf
+    subitems:
+      - type: row
+        id: row_custom_esp_idf
+        subitems:
+          - type: combo
+            id: esp_idf_version
+            name: Select ESP-IDF Version
+            items:
+              - name: ESP-IDF 5.0
+                description: Release Version
+              - name: ESP-IDF 5.3
+                description: Release Version
+      - type: 'action-row'
+        id: idf-install-scoop
+        action-name: Install Scoop
+        check: scoop --version
+        install: iwr -useb get.scoop.sh | iex
+      - type: 'action-row'
+        id: idf-install-git
+        action-name: Install Git
+        check: git --version
+        install: scoop install git
+  - type: fieldset
+    id: fieldset_tinygo
+    subitems:
+      - type: 'action-row'
+        id: install-scoop
+        action-name: Install Scoop
+        check: scoop --version
+        install: iwr -useb get.scoop.sh | iex
+      - type: 'action-row'
+        id: install-go
+        action-name: Install Go
+        check: go version
+        install: scoop install go
+      - type: 'action-row'
+        id: install-tinygo
+        action-name: Install TinyGo
+        check: tinygo version
+        install: scoop install tinygo
+  - type: fieldset
+    id: fieldset_rust
+    subitems:
+      - type: 'action-row'
+        id: install-scoop-rust
+        action-name: Install Scoop
+        check: scoop --version
+        install: iwr -useb get.scoop.sh | iex
+      - type: 'action-row'
+        id: install-rustup
+        action-name: Install Rust Up
+        check: rustup --version
+        install: scoop install rustup-gnu
+
+      - type: 'action-row'
+        id: install-espup
+        action-name: Install espup (Xtensa targets only)
+        check: espup --version
+        install: cargo install espup
+
+      - type: 'action-row'
+        id: run-espup
+        action-name: Run espup
+        check: powershell "if (Test-Path -Path '~/export-esp.ps1')  { exit 0 } else { exit 1 }"
+        install: espup install
+
+      - type: 'action-row'
+        id: install-toolchain
+        action-name: Install Rust Toolchain
+        check: powershell $out = rustup show; if ($out -like '*nightly-x86_64-pc-windows-msvc*') { exit 0 } else { exit 1 }
+        install: rustup toolchain install nightly --component rust-src
+
+      - type: 'action-row'
+        id: install-target-c2-c3
+        action-name: Add taget baremetal (ESP32-C2, ESP32-C3)
+        check: powershell $out = rustup show; if ($out -like '*riscv32imc-unknown-none-elf*') { exit 0 } else { exit 1 }
+        install: rustup target add riscv32imc-unknown-none-elf
+
+      - type: 'action-row'
+        id: install-target-c6-
+        action-name: Add taget baremetal (ESP32-C2, ESP32-C3)
+        check: powershell $out = rustup show; if ($out -like '*riscv32imac-unknown-none-elf*') { exit 0 } else { exit 1 }
+        install: rustup target add riscv32imac-unknown-none-elf
+
+  - type: fieldset
+    id: fieldset_zephyr
+    subitems:
+      - type: 'action-row'
+        id: install-scoop-zephyr
+        action-name: Install Scoop
+        check: scoopx --version
+        install: iwr -useb get.scoop.sh | iex
+      - type: 'action-row'
+        id: install-wget
+        action-name: Install wget
+        check: wget --version
+        install: scoop install wget 7zip
+
+      - type: 'action-row'
+        id: zephyr-download-sdk
+        action-name: Download Zephyr SDK
+        check: if (-not (Test-path ./zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf)) { exit 0 } else { exit 1 }
+        install: |
+            if (-not (Test-path ./zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf)) { wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.3/zephyr-sdk-0.16.3_windows-x86_64.7z -O ./zephyr-sdk-0.16.3_windows-x86_64.7z }
+            7z x zephyr-sdk-0.16.3_windows-x86_64.7z
+
+        # ESP-IDF targets are more complex
+footer:
+  - type: footer
+    id: footer
+    subitems:
+      - type: button
+        id: create_button
+        text: Create
