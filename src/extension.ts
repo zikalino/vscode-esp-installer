@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import YAML from 'yaml';
 import { marked } from 'marked';
-import GenericWebView from '@zim.kalinowski/vscode-helper-toolkit';
+import * as helpers from '@zim.kalinowski/vscode-helper-toolkit';
 
 var extensionUri: vscode.Uri;
 var mediaFolder: vscode.Uri;
@@ -40,14 +40,18 @@ export function deactivate () {}
 var layoutWelcome: any = require('./layout-welcome.yaml');
 
 async function displayWelcomeDemo() {
-  let view = new GenericWebView(extensionContext, "Welcome!");
-  view.createPanel(layoutWelcome);
+  try {
+    let view = new helpers.GenericWebView(extensionContext, "Welcome!");
+    view.createPanel(layoutWelcome);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 var layoutSetup: any = require('./layout-setup.yaml');
 
 async function displaySetupDemo () {
-  let view = new GenericWebView(extensionContext, "Setup");
+  let view = new helpers.GenericWebView(extensionContext, "Setup");
   view.createPanel(layoutSetup);
 
   view.MsgHandler = function (msg: any) {
