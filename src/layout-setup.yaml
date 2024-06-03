@@ -155,13 +155,44 @@ form:
         install: scoop install wget 7zip
 
       - type: 'action-row'
+        id: zephyr-install-venv
+        action-name: Create Virtual Environment
+        check: powershell if (Test-path ~/zephyrproject/.venv/Scripts/activate.bat -PathType leaf) { exit 0 } else { exit 1 }
+        install: |
+            cd ~
+            python -m venv zephyrproject\.venv
+
+      - type: 'action-row'
+        id: zephyr-install-west
+        action-name: Install west
+        check: powershell ~/zephyrproject/.venv/Scripts/activate.ps1; west --version
+        install: |
+            ~/zephyrproject/.venv/Scripts/activate.ps1
+            pip install west
+
+      - type: 'action-row'
+        id: zephyr-get-source
+        action-name: Get Zephyr Source
+        check: powershell if (Test-path ~/zephyrproject/.venv/Scripts/mooo -PathType leaf) { exit 0 } else { exit 1 }
+        install: |
+            cd ~
+            ./zephyrproject/.venv/Scripts/activate.ps1
+            west init zephyrproject
+            cd zephyrproject
+            west update
+            west zephyr-export
+            pip install -r ./zephyr/scripts/requirements.txt
+            west blobs fetch hal_espressif
+        # maybe last command should be separated
+      - type: 'action-row'
         id: zephyr-download-sdk
         action-name: Download Zephyr SDK
         check: powershell if (Test-path ~/zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf) { exit 0 } else { exit 1 }
         install: |
             if (-not (Test-path ~/zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf)) { wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.3/zephyr-sdk-0.16.3_windows-x86_64.7z -O ~/zephyr-sdk-0.16.3_windows-x86_64.7z }
             7z x ~/zephyr-sdk-0.16.3_windows-x86_64.7z
-
+            ~/zephyr-sdk-0.16.3/setup.cmd
+        # !!! make setup.cmd non-interactive !!!
         # ESP-IDF targets are more complex
 footer:
   - type: footer
