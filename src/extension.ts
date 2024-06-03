@@ -81,7 +81,6 @@ async function displaySetupDemo () {
       if (msg.id === 'ESP-IDF') {
         // XXX - show ESP-IDF version
         view.showElement('fieldset_esp_idf');
-        view.disableElement('fieldset_esp_idf');
       } else if (msg.id === 'TinyGo') {
         view.showElement("fieldset_tinygo");
       } else if (msg.id === 'Zephyr') {
