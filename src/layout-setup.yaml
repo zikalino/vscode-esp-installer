@@ -146,7 +146,7 @@ form:
       - type: 'action-row'
         id: install-scoop-zephyr
         action-name: Install Scoop
-        check: scoopx --version
+        check: scoop --version
         install: iwr -useb get.scoop.sh | iex
       - type: 'action-row'
         id: install-wget
@@ -157,10 +157,10 @@ form:
       - type: 'action-row'
         id: zephyr-download-sdk
         action-name: Download Zephyr SDK
-        check: if (-not (Test-path ./zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf)) { exit 0 } else { exit 1 }
+        check: powershell if (Test-path ~/zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf) { exit 0 } else { exit 1 }
         install: |
-            if (-not (Test-path ./zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf)) { wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.3/zephyr-sdk-0.16.3_windows-x86_64.7z -O ./zephyr-sdk-0.16.3_windows-x86_64.7z }
-            7z x zephyr-sdk-0.16.3_windows-x86_64.7z
+            if (-not (Test-path ~/zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf)) { wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.3/zephyr-sdk-0.16.3_windows-x86_64.7z -O ~/zephyr-sdk-0.16.3_windows-x86_64.7z }
+            7z x ~/zephyr-sdk-0.16.3_windows-x86_64.7z
 
         # ESP-IDF targets are more complex
 footer:
@@ -168,5 +168,5 @@ footer:
     id: footer
     subitems:
       - type: button
-        id: create_button
-        text: Create
+        id: install_button
+        text: Install

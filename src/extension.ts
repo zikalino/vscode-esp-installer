@@ -51,7 +51,7 @@ async function displayWelcomeDemo() {
 var layoutSetup: any = require('./layout-setup.yaml');
 
 async function displaySetupDemo () {
-  let view = new helpers.GenericWebView(extensionContext, "Setup");
+  let view = new helpers.GenericWebView(extensionContext, "Installer");
   view.createPanel(layoutSetup);
 
   view.MsgHandler = function (msg: any) {
@@ -60,17 +60,18 @@ async function displaySetupDemo () {
       view.hideElement("fieldset_tinygo");
       view.hideElement('fieldset_rust');
       view.hideElement('fieldset_zephyr');
+      view.runStepsVerification();
     } else if (msg.command === 'button-clicked') {
       //vscode.window.showInformationMessage('Button ' + msg.id + ' Clicked!');
       if (msg.id === 'close') {
         view.close();
-      } else if (msg.id === 'create_button') {
+      } else if (msg.id === 'install_button') {
         view.runStepsInstallation();
       }
     } else if (msg.command === 'radio-clicked') {
       vscode.window.showInformationMessage('Radio ' + msg.id + ' Clicked!');
     } else if (msg.command === 'dropdown-clicked') {
-      vscode.window.showInformationMessage('Dropdown item ' + msg.id + ' Clicked X!');
+      // vscode.window.showInformationMessage('Dropdown item ' + msg.id + ' Clicked X!');
 
       view.hideElement("fieldset_tinygo");
       view.hideElement('fieldset_esp_idf');
