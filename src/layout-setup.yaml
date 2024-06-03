@@ -39,10 +39,45 @@ form:
         check: scoop --version
         install: iwr -useb get.scoop.sh | iex
       - type: 'action-row'
+        id: idf-install-python
+        action-name: Install Python
+        check: python --version
+        install: scoop install python
+      - type: 'action-row'
         id: idf-install-git
         action-name: Install Git
         check: git --version
         install: scoop install git
+      - type: 'action-row'
+        id: idf-install-cmake
+        action-name: Install CMake
+        check: cmake --version
+        install: scoop install cmake
+      - type: 'action-row'
+        id: idf-install-ninja
+        action-name: Install Ninja
+        check: ninja --version
+        install: scoop install ninja
+      - type: 'action-row'
+        id: idf-install-openocd
+        action-name: Install OpenOCD
+        check: openocd --version
+        install: scoop install openocd
+      - type: 'action-row'
+        id: idf-install-sdk
+        action-name: Install ESP-IDF
+        check: powershell if (Test-path ~/esp-idf-v5.3-beta1 -PathType container) { exit 0 } else { exit 1}
+        install: |
+            if (-not (Test-path ~/esp-idf-v5.3-beta1.zip -PathType leaf)) { wget https://dl.espressif.com/github_assets/espressif/esp-idf/releases/download/v5.3-beta1/esp-idf-v5.3-beta1.zip -O ./esp-idf-v5.3-beta1.zip }
+            unzip esp-idf-v5.3-beta1.zip
+      - type: 'action-row'
+        id: idf-install-tools
+        action-name: Install ESP-IDF Tools
+        check: powershell if (Test-path ~/esp-idf-v5.3-beta1-xxx -PathType container) { exit 0 } else { exit 1}
+        install: |
+            cd ~/esp-idf-v5.3-beta1
+            ./install.bat
+            ./export.bat
   - type: fieldset
     id: fieldset_tinygo
     subitems:
