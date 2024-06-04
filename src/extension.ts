@@ -19,14 +19,14 @@ export function activate (context: vscode.ExtensionContext) {
   // This line of code will only be executed once when your extension is activated
   console.log('Congratulations, your extension "vscode-demo-extension" is now active!');
 
-  let disposable = vscode.commands.registerCommand('vscode-demo-extension.displayWelcomeDemo', () => {
-    displayWelcomeDemo();
+  let disposable = vscode.commands.registerCommand('vscode-demo-extension.displayInstallerWelcome', () => {
+    displayInstallerWelcome();
   });
 
   disposable = vscode.commands.registerCommand(
-    'vscode-demo-extension.displaySetupDemo',
+    'vscode-demo-extension.displayInstallerView',
     () => {
-      displaySetupDemo();
+      displayInstallerView();
     }
   );
 
@@ -39,7 +39,7 @@ export function deactivate () {}
 
 var layoutWelcome: any = require('./layout-welcome.yaml');
 
-async function displayWelcomeDemo() {
+async function displayInstallerWelcome() {
   try {
     let view = new helpers.GenericWebView(extensionContext, "Welcome!");
     view.createPanel(layoutWelcome);
@@ -50,7 +50,7 @@ async function displayWelcomeDemo() {
 
 var layoutSetup: any = require('./layout-setup.yaml');
 
-async function displaySetupDemo () {
+async function displayInstallerView() {
   let view = new helpers.GenericWebView(extensionContext, "Installer");
   view.createPanel(layoutSetup);
 

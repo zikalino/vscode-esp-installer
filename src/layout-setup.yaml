@@ -7,6 +7,7 @@ header:
 form:
   - type: fieldset
     id: main_fieldset
+    platform: win32
     subitems:
       - type: row
         id: row_1
@@ -19,6 +20,20 @@ form:
               - Rust
               - Zephyr
               - TinyGo
+  - type: fieldset
+    id: main_fieldset
+    platform:
+      - linux
+      - darwin
+    subitems:
+      - type: row
+        id: row_1
+        subitems:
+          - type: combo
+            id: sdk_type
+            name: Select SDK
+            items:
+              - not supported
   - type: fieldset
     id: fieldset_esp_idf
     subitems:
@@ -34,6 +49,7 @@ form:
               - name: ESP-IDF 5.3
                 description: Release Version
       - type: 'action-row'
+        platform: win32
         id: idf-install-scoop
         action-name: Install Scoop
         check: scoop --version

@@ -1,7 +1,7 @@
 type: layout-welcome
 header:
   - type: header
-    title: Demo Extension
+    title: ESP Installer Extension
     logo: logo.svg
 footer:
   - type: checkbox

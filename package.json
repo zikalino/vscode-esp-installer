@@ -1,7 +1,7 @@
 {
   "name": "vscode-demo-extension",
-  "displayName": "Experimental Demo Extension",
-  "description": "Experimental Demo Extension",
+  "displayName": "ESP Installer",
+  "description": "ESP Toolchain Installer",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.85.0"
@@ -14,12 +14,12 @@
   "contributes": {
     "commands": [
       {
-        "command": "vscode-demo-extension.displayWelcomeDemo",
-        "title": "demo: Welcome Screen Demo"
+        "command": "vscode-demo-extension.displayInstallerWelcome",
+        "title": "espressif: Installer - Welcome"
       },
       {
-        "command": "vscode-demo-extension.displaySetupDemo",
-        "title": "demo: Setup Demo"
+        "command": "vscode-demo-extension.displayInstallerView",
+        "title": "espressif: Installer"
       }
     ]
   },
