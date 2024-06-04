@@ -44,10 +44,11 @@ form:
             id: esp_idf_version
             name: Select ESP-IDF Version
             items:
-              - name: ESP-IDF 5.0
-                description: Release Version
-              - name: ESP-IDF 5.3
-                description: Release Version
+              - v5.3-beta1
+              - v5.2.2
+              - v5.1.4
+              - v5.2.1
+            variable: version
       - type: 'action-row'
         platform: win32
         id: idf-install-scoop
@@ -82,16 +83,16 @@ form:
       - type: 'action-row'
         id: idf-install-sdk
         action-name: Install ESP-IDF
-        check: powershell if (Test-path ~/esp-idf-v5.3-beta1 -PathType container) { exit 0 } else { exit 1}
+        check: if (Test-path ~/esp-idf-${version} -PathType container) { exit 0 } else { exit 1}
         install: |
-            if (-not (Test-path ~/esp-idf-v5.3-beta1.zip -PathType leaf)) { wget https://dl.espressif.com/github_assets/espressif/esp-idf/releases/download/v5.3-beta1/esp-idf-v5.3-beta1.zip -O ./esp-idf-v5.3-beta1.zip }
-            unzip esp-idf-v5.3-beta1.zip
+            if (-not (Test-path ~/esp-idf-${version}.zip -PathType leaf)) { wget https://dl.espressif.com/github_assets/espressif/esp-idf/releases/download/${version}/esp-idf-${version}.zip -O ./esp-idf-${version}.zip }
+            unzip esp-idf-${version}.zip
       - type: 'action-row'
         id: idf-install-tools
         action-name: Install ESP-IDF Tools
-        check: powershell if (Test-path ~/esp-idf-v5.3-beta1-xxx -PathType container) { exit 0 } else { exit 1}
+        check: if (Test-path ~/esp-idf-${version} -PathType container) { exit 0 } else { exit 1}
         install: |
-            cd ~/esp-idf-v5.3-beta1
+            cd ~/esp-idf-${version}
             ./install.bat
             ./export.bat
   - type: fieldset
@@ -135,25 +136,25 @@ form:
       - type: 'action-row'
         id: run-espup
         action-name: Run espup
-        check: powershell "if (Test-Path -Path '~/export-esp.ps1')  { exit 0 } else { exit 1 }"
+        check: if (Test-Path -Path '~/export-esp.ps1')  { exit 0 } else { exit 1 }
         install: espup install
 
       - type: 'action-row'
         id: install-toolchain
         action-name: Install Rust Toolchain
-        check: powershell $out = rustup show; if ($out -like '*nightly-x86_64-pc-windows-msvc*') { exit 0 } else { exit 1 }
+        check: $out = rustup show; if ($out -like '*nightly-x86_64-pc-windows-msvc*') { exit 0 } else { exit 1 }
         install: rustup toolchain install nightly --component rust-src
 
       - type: 'action-row'
         id: install-target-c2-c3
         action-name: Add taget baremetal (ESP32-C2, ESP32-C3)
-        check: powershell $out = rustup show; if ($out -like '*riscv32imc-unknown-none-elf*') { exit 0 } else { exit 1 }
+        check: $out = rustup show; if ($out -like '*riscv32imc-unknown-none-elf*') { exit 0 } else { exit 1 }
         install: rustup target add riscv32imc-unknown-none-elf
 
       - type: 'action-row'
         id: install-target-c6-
         action-name: Add taget baremetal (ESP32-C2, ESP32-C3)
-        check: powershell $out = rustup show; if ($out -like '*riscv32imac-unknown-none-elf*') { exit 0 } else { exit 1 }
+        check: $out = rustup show; if ($out -like '*riscv32imac-unknown-none-elf*') { exit 0 } else { exit 1 }
         install: rustup target add riscv32imac-unknown-none-elf
 
   - type: fieldset
@@ -173,7 +174,7 @@ form:
       - type: 'action-row'
         id: zephyr-install-venv
         action-name: Create Virtual Environment
-        check: powershell if (Test-path ~/zephyrproject/.venv/Scripts/activate.bat -PathType leaf) { exit 0 } else { exit 1 }
+        check: if (Test-path ~/zephyrproject/.venv/Scripts/activate.bat -PathType leaf) { exit 0 } else { exit 1 }
         install: |
             cd ~
             python -m venv zephyrproject\.venv
@@ -181,7 +182,7 @@ form:
       - type: 'action-row'
         id: zephyr-install-west
         action-name: Install west
-        check: powershell ~/zephyrproject/.venv/Scripts/activate.ps1; west --version
+        check: ~/zephyrproject/.venv/Scripts/activate.ps1; west --version
         install: |
             ~/zephyrproject/.venv/Scripts/activate.ps1
             pip install west
@@ -189,7 +190,7 @@ form:
       - type: 'action-row'
         id: zephyr-get-source
         action-name: Get Zephyr Source
-        check: powershell if (Test-path ~/zephyrproject/.venv/Scripts/mooo -PathType leaf) { exit 0 } else { exit 1 }
+        checkk: if (Test-path ~/zephyrproject/.venv/Scripts/mooo -PathType leaf) { exit 0 } else { exit 1 }
         install: |
             cd ~
             ./zephyrproject/.venv/Scripts/activate.ps1
@@ -203,7 +204,7 @@ form:
       - type: 'action-row'
         id: zephyr-download-sdk
         action-name: Download Zephyr SDK
-        check: powershell if (Test-path ~/zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf) { exit 0 } else { exit 1 }
+        check: if (Test-path ~/zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf) { exit 0 } else { exit 1 }
         install: |
             if (-not (Test-path ~/zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf)) { wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.3/zephyr-sdk-0.16.3_windows-x86_64.7z -O ~/zephyr-sdk-0.16.3_windows-x86_64.7z }
             7z x ~/zephyr-sdk-0.16.3_windows-x86_64.7z
