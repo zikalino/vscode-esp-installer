@@ -71,7 +71,7 @@ async function displayInstallerView() {
     } else if (msg.command === 'radio-clicked') {
       vscode.window.showInformationMessage('Radio ' + msg.id + ' Clicked!');
     } else if (msg.command === 'dropdown-clicked') {
-      if (msg.combo_id === 'main_fieldset') {
+      if (msg.combo_id === 'sdk_type') {
         // vscode.window.showInformationMessage('Dropdown item ' + msg.id + ' Clicked X!');
 
         view.hideElement("fieldset_tinygo");
