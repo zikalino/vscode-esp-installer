@@ -150,6 +150,12 @@ form:
         install: cargo install espup
 
       - type: 'action-row'
+        id: rust-install-espflash
+        action-name: Install espflash
+        check: espflash --version
+        install: cargo install espflash
+
+      - type: 'action-row'
         id: run-espup
         action-name: Run espup
         check: if (Test-Path -Path '~/export-esp.ps1')  { exit 0 } else { exit 1 }
@@ -182,12 +188,6 @@ form:
         check: scoop --version
         install: iwr -useb get.scoop.sh | iex
       - type: 'action-row'
-        id: install-wget
-        action-name: Install wget
-        check: wget --version
-        install: scoop install wget 7zip
-
-      - type: 'action-row'
         id: zephyr-install-venv
         action-name: Create Virtual Environment
         check: if (Test-path ~/zephyrproject/.venv/Scripts/activate.bat -PathType leaf) { exit 0 } else { exit 1 }
@@ -206,7 +206,7 @@ form:
       - type: 'action-row'
         id: zephyr-get-source
         action-name: Get Zephyr Source
-        checkk: if (Test-path ~/zephyrproject/.venv/Scripts/mooo -PathType leaf) { exit 0 } else { exit 1 }
+        check: if (Test-path ~/zephyrproject/.venv/Scripts/mooo -PathType leaf) { exit 0 } else { exit 1 }
         install: |
             cd ~
             ./zephyrproject/.venv/Scripts/activate.ps1
