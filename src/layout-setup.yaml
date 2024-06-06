@@ -113,6 +113,18 @@ form:
         action-name: Install TinyGo
         check: tinygo version
         install: scoop install tinygo
+      - type: 'action-row'
+        id: tinygo-install-python
+        action-name: Install Python
+        check: python --version
+        install: scoop install python
+      - type: 'action-row'
+        id: tinygo-install-esptool
+        action-name: Install esptool.py
+        check: esptool -h
+        install: pip install esptool
+
+
   - type: fieldset
     id: fieldset_rust
     subitems:
