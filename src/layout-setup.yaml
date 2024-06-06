@@ -20,6 +20,10 @@ form:
               - Rust
               - Zephyr
               - TinyGo
+              - MicroPython
+              - NuttX
+              - DeviceScript
+              - .NET nanoFramework
   - type: fieldset
     id: main_fieldset
     platform:
@@ -154,7 +158,7 @@ form:
       - type: 'action-row'
         id: install-toolchain
         action-name: Install Rust Toolchain
-        check: $out = rustup show; if ($out -like '*nightly-x86_64-pc-windows-msvc*') { exit 0 } else { exit 1 }
+        check: $out = rustup show; if ($out -like '*x86_64-pc-windows-gnu*') { exit 0 } else { exit 1 }
         install: rustup toolchain install nightly --component rust-src
 
       - type: 'action-row'

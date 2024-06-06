@@ -2,7 +2,7 @@ type: layout-welcome
 header:
   - type: header
     title: ESP Installer Extension
-    logo: logo.svg
+    logo: espressif.svg
 footer:
   - type: checkbox
     id: show_on_startup

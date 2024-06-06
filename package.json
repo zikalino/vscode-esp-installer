@@ -1,8 +1,10 @@
 {
-  "name": "vscode-demo-extension",
+  "name": "vscode-esp-installer",
   "displayName": "ESP Installer",
   "description": "ESP Toolchain Installer",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "repository": "https://github.com/zikalino/vscode-esp-installer",
+  "publisher": "zikalinox",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -14,11 +16,11 @@
   "contributes": {
     "commands": [
       {
-        "command": "vscode-demo-extension.displayInstallerWelcome",
+        "command": "vscode-esp-installer.displayInstallerWelcome",
         "title": "espressif: Installer - Welcome"
       },
       {
-        "command": "vscode-demo-extension.displayInstallerView",
+        "command": "vscode-esp-installer.displayInstallerView",
         "title": "espressif: Installer"
       }
     ]
@@ -38,7 +40,6 @@
     "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
-    "@vscode/codicons": "0.0.20",
     "@vscode/test-cli": "^0.0.4",
     "@vscode/test-electron": "^2.3.8",
     "esbuild": "^0.16.17",
@@ -50,7 +51,8 @@
   },
   "dependencies": {
     "@vscode/webview-ui-toolkit": "^1.4.0",
-    "@zim.kalinowski/vscode-helper-toolkit": "^0.0.2",
+    "@zim.kalinowski/vscode-helper-toolkit": "^0.0.3",
+    "@vscode/codicons": "0.0.20",
     "marked": "^12.0.1",
     "yaml": "^2.3.4"
   }
