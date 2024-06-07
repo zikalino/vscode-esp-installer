@@ -37,9 +37,14 @@ form:
             id: sdk_type
             name: Select SDK
             items:
-              - not supported
+              - Zephyr
+              - Other
+  #
+  # ESP IDF
+  #
   - type: fieldset
     id: fieldset_esp_idf
+    platform: win32
     subitems:
       - type: row
         id: row_custom_esp_idf
@@ -94,13 +99,17 @@ form:
       - type: 'action-row'
         id: idf-install-tools
         action-name: Install ESP-IDF Tools
-        check: if (Test-path ~/esp-idf-${version} -PathType container) { exit 0 } else { exit 1}
+        check: if (Test-path ~/esp-idf-${version}-xx -PathType container) { exit 0 } else { exit 1}
         install: |
             cd ~/esp-idf-${version}
             ./install.bat
             ./export.bat
+  #
+  # TinyGo
+  #
   - type: fieldset
     id: fieldset_tinygo
+    platform: win32
     subitems:
       - type: 'action-row'
         id: install-scoop
@@ -128,9 +137,12 @@ form:
         check: esptool -h
         install: pip install esptool
 
-
+  #
+  # Rust
+  #
   - type: fieldset
     id: fieldset_rust
+    platform: win32
     subitems:
       - type: 'action-row'
         id: install-scoop-rust
@@ -179,8 +191,12 @@ form:
         check: $out = rustup show; if ($out -like '*riscv32imac-unknown-none-elf*') { exit 0 } else { exit 1 }
         install: rustup target add riscv32imac-unknown-none-elf
 
+  #
+  # Zephyr
+  #
   - type: fieldset
     id: fieldset_zephyr
+    platform: win32
     subitems:
       - type: 'action-row'
         id: zephyr-install-python
@@ -211,6 +227,63 @@ form:
             cd ~
             ./zephyrproject/.venv/Scripts/activate.ps1
             west init zephyrproject
+            cd zephyrproject
+            west update
+            west zephyr-export
+            pip install -r ./zephyr/scripts/requirements.txt
+            west blobs fetch hal_espressif
+        # maybe last command should be separated
+      - type: 'action-row'
+        id: zephyr-download-sdk
+        action-name: Download Zephyr SDK
+        check: if (Test-path ~/zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf) { exit 0 } else { exit 1 }
+        install: |
+            if (-not (Test-path ~/zephyr-sdk-0.16.3_windows-x86_64.7z -PathType leaf)) { wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.3/zephyr-sdk-0.16.3_windows-x86_64.7z -O ~/zephyr-sdk-0.16.3_windows-x86_64.7z }
+            7z x ~/zephyr-sdk-0.16.3_windows-x86_64.7z
+            ~/zephyr-sdk-0.16.3/setup.cmd
+        # !!! make setup.cmd non-interactive !!!
+        # ESP-IDF targets are more complex
+      - type: 'action-row'
+        id: zephyr-build-hello-world
+        action-name: Build Hello World Example
+        check: if (Test-path ~/zephyrproject/zephyr/build/zephyr/zephyr.elf -PathType leaf) { exit 0 } else { exit 1 }
+        install: |
+            cd ~
+            ./zephyrproject/.venv/Scripts/activate.ps1
+            cd ~/zephyrproject/zephyr
+            west build -p auto -b esp32 samples/hello_world/
+  - type: fieldset
+    id: fieldset_zephyr
+    platform: linux
+    subitems:
+      - type: 'action-row'
+        id: zephyr-install-python
+        action-name: Install Python
+        check: python --version
+        install: sudo apt-get update; sudo apt-get install python
+      - type: 'action-row'
+        id: zephyr-install-venv
+        action-name: Create Virtual Environment
+        check: if (Test-path ~/zephyrproject/.venv/Scripts/activate.bat -PathType leaf) { exit 0 } else { exit 1 }
+        install: |
+            python -m venv ~/zephyrproject/.venv
+
+      - type: 'action-row'
+        id: zephyr-install-west
+        action-name: Install west
+        check: source ~/zephyrproject/.venv/bin/activate; west --version
+        install: |
+            source ~/zephyrproject/.venv/bin/activate
+            pip install west
+
+      - type: 'action-row'
+        id: zephyr-get-source
+        action-name: Get Zephyr Source
+        check: if (Test-path ~/zephyrproject/.venv/Scripts/mooo -PathType leaf) { exit 0 } else { exit 1 }
+        install: |
+            cd ~
+            source ~/zephyrproject/.venv/bin/activate
+            west init ~/zephyrproject
             cd zephyrproject
             west update
             west zephyr-export
