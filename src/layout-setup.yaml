@@ -183,10 +183,10 @@ form:
     id: fieldset_zephyr
     subitems:
       - type: 'action-row'
-        id: install-scoop-zephyr
-        action-name: Install Scoop
-        check: scoop --version
-        install: iwr -useb get.scoop.sh | iex
+        id: zephyr-install-python
+        action-name: Install Python
+        check: python --version
+        install: winget install python
       - type: 'action-row'
         id: zephyr-install-venv
         action-name: Create Virtual Environment
@@ -227,6 +227,15 @@ form:
             ~/zephyr-sdk-0.16.3/setup.cmd
         # !!! make setup.cmd non-interactive !!!
         # ESP-IDF targets are more complex
+      - type: 'action-row'
+        id: zephyr-build-hello-world
+        action-name: Build Hello World Example
+        check: if (Test-path ~/zephyrproject/zephyr/build/zephyr/zephyr.elf -PathType leaf) { exit 0 } else { exit 1 }
+        install: |
+            cd ~
+            ./zephyrproject/.venv/Scripts/activate.ps1
+            cd ~/zephyrproject/zephyr
+            west build -p auto -b esp32 samples/hello_world/
 footer:
   - type: footer
     id: footer
