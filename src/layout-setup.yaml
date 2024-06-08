@@ -259,17 +259,19 @@ form:
       - type: 'action-row'
         id: zephyr-install-python
         action-name: Install Python
-        check: python3 --version
+        check: python3.9 --version
         install: |
-            sudo apt update
-            sudo apt install -y python3 python3-venv python3-pip cmake
+            echo "xxxpassxxx" | sudo -S apt update
+            echo "xxxpassxxx" | sudo -S apt install -y software-properties-common
+            echo "xxxpassxxx" | sudo -S add-apt-repository ppa:deadsnakes/ppa -y
+            echo "xxxpassxxx" | sudo -S apt install -y python3.9 python3.9-venv python3-pip cmake ninja-build
 
       - type: 'action-row'
         id: zephyr-install-venv
         action-name: Create Virtual Environment
         check: test -f ~/zephyrproject/.venv/bin/activate
         install: |
-            python3 -m venv ~/zephyrproject/.venv
+            python3.9 -m venv ~/zephyrproject/.venv
 
       - type: 'action-row'
         id: zephyr-install-west
@@ -299,13 +301,13 @@ form:
         check: test -p ~/zephyr-sdk-0.16.8
         install: |
             cd ~
-            if ! [test -p ~/zephyr-sdk-0.16.8_linux-x86_64.tar.xz]; then
-              wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.8/zephyr-sdk-0.16.8_linux-x86_64.tar.xz
-              wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.8/sha256.sum | shasum --check --ignore-missing
+            if ! [ -e ~/zephyr-sdk-0.16.8_linux-x86_64.tar.xz ]; then
+              wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.8/zephyr-sdk-0.16.8_linux-x86_64.tar.xz;
+              wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.8/sha256.sum | shasum --check --ignore-missing;
             fi
             tar xvf zephyr-sdk-0.16.8_linux-x86_64.tar.xz
             cd zephyr-sdk-0.16.8
-            ./setup.sh -y
+            ./setup.sh -t all -h -c
         # !!! make setup.cmd non-interactive !!!
         # ESP-IDF targets are more complex
       - type: 'action-row'
