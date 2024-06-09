@@ -142,7 +142,7 @@ form:
     platform: linux
     subitems:
       - type: 'action-row'
-        id: zephyr-install-python
+        id: tinygo-install-python
         action-name: Install Python
         check: python3.9 --version
         install: |
@@ -158,7 +158,8 @@ form:
         install: |
           cd ~
           wget https://go.dev/dl/go1.22.4.linux-amd64.tar.gz
-          rm -rf /usr/local/go && tar -C /usr/local -xzf go1.22.4.linux-amd64.tar.gz
+          echo "xxxpassxxx" | sudo -S rm -rf /usr/local/go
+          echo "xxxpassxxx" | sudo -S tar -C /usr/local -xzf go1.22.4.linux-amd64.tar.gz
           export PATH=$PATH:/usr/local/go/bin
 
       - type: 'action-row'
@@ -168,7 +169,7 @@ form:
         install: |
           cd ~
           wget https://github.com/tinygo-org/tinygo/releases/download/v0.31.2/tinygo_0.31.2_amd64.deb
-          sudo dpkg -i tinygo_0.31.2_amd64.deb
+          echo "xxxpassxxx" | sudo -S dpkg -i tinygo_0.31.2_amd64.deb
 
   #
   # Rust
