@@ -56,10 +56,18 @@ async function displayInstallerView() {
 
   view.MsgHandler = function (msg: any) {
     if (msg.command === 'ready') {
-      view.showElement('fieldset_esp_idf');
-      view.hideElement("fieldset_tinygo");
-      view.hideElement('fieldset_rust');
-      view.hideElement('fieldset_zephyr');
+      // XXX - this is just temporary solution until extension is in stable state
+      if (process.platform === "win32") {
+        view.showElement('fieldset_esp_idf');
+        view.hideElement("fieldset_tinygo");
+        view.hideElement('fieldset_rust');
+        view.hideElement('fieldset_zephyr');
+      } else {
+        view.hideElement('fieldset_esp_idf');
+        view.hideElement("fieldset_tinygo");
+        view.hideElement('fieldset_rust');
+        view.showElement('fieldset_zephyr');
+      }
       view.runStepsVerification();
     } else if (msg.command === 'button-clicked') {
       //vscode.window.showInformationMessage('Button ' + msg.id + ' Clicked!');

@@ -38,7 +38,6 @@ form:
             name: Select SDK
             items:
               - Zephyr
-              - Other
   #
   # ESP IDF
   #
