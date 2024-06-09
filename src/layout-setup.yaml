@@ -39,6 +39,7 @@ form:
             items:
               - Zephyr
               - TinyGo
+              - Rust
   #
   # ESP IDF
   #
@@ -224,6 +225,69 @@ form:
         action-name: Add taget baremetal (ESP32-C2, ESP32-C3)
         check: $out = rustup show; if ($out -like '*riscv32imac-unknown-none-elf*') { exit 0 } else { exit 1 }
         install: rustup target add riscv32imac-unknown-none-elf
+
+  - type: fieldset
+    id: fieldset_rust
+    platform: linux
+    subitems:
+      - type: 'action-row'
+        id: install-rustup
+        action-name: Install Prerequisites
+        check: curl --version
+        install: |
+            echo "xxxpassxxx" | sudo -S apt update
+            echo "xxxpassxxx" | sudo -S apt install -y curl
+      - type: 'action-row'
+        id: install-rustup
+        action-name: Install Rust Up
+        check: rustup --version
+        install: |
+            cd ~
+            curl https://sh.rustup.rs -sSf | sh
+            source ~/.cargo/env
+
+      - type: 'action-row'
+        id: install-espup
+        action-name: Install espup (Xtensa targets only)
+        check: espup --version
+        install: |
+            source ~/.cargo/env
+            cargo install espup
+
+      - type: 'action-row'
+        id: rust-install-espflash
+        action-name: Install espflash
+        check: espflash --version
+        install: |
+            source ~/.cargo/env
+            cargo install espflash
+
+      - type: 'action-row'
+        id: run-espup
+        action-name: Run espup
+        check: if (Test-Path -Path '~/export-esp.ps1')  { exit 0 } else { exit 1 }
+        install: espup install
+
+      - type: 'action-row'
+        id: install-toolchain
+        action-name: Install Rust Toolchain
+        check: $out = rustup show; if ($out -like '*x86_64-pc-windows-gnu*') { exit 0 } else { exit 1 }
+        install: rustup toolchain install nightly --component rust-src
+
+      - type: 'action-row'
+        id: install-target-c2-c3
+        action-name: Add taget baremetal (ESP32-C2, ESP32-C3)
+        check: $out = rustup show; if ($out -like '*riscv32imc-unknown-none-elf*') { exit 0 } else { exit 1 }
+        install: |
+            source ~/.cargo/env
+            rustup target add riscv32imc-unknown-none-elf
+
+      - type: 'action-row'
+        id: install-target-c6-
+        action-name: Add taget baremetal (ESP32-C2, ESP32-C3)
+        install: |
+            source ~/.cargo/env
+            rustup target add riscv32imac-unknown-none-elf
 
   #
   # Zephyr
