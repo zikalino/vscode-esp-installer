@@ -38,6 +38,7 @@ form:
             name: Select SDK
             items:
               - Zephyr
+              - TinyGo
   #
   # ESP IDF
   #
@@ -135,6 +136,39 @@ form:
         action-name: Install esptool.py
         check: esptool -h
         install: pip install esptool
+
+  - type: fieldset
+    id: fieldset_tinygo
+    platform: linux
+    subitems:
+      - type: 'action-row'
+        id: zephyr-install-python
+        action-name: Install Python
+        check: python3.9 --version
+        install: |
+            echo "xxxpassxxx" | sudo -S apt update
+            echo "xxxpassxxx" | sudo -S apt install -y software-properties-common
+            echo "xxxpassxxx" | sudo -S add-apt-repository ppa:deadsnakes/ppa -y
+            echo "xxxpassxxx" | sudo -S apt install -y python3.9 wget
+
+      - type: 'action-row'
+        id: install-go
+        action-name: Install Go
+        check: go version
+        install: |
+          cd ~
+          wget https://go.dev/dl/go1.22.4.linux-amd64.tar.gz
+          rm -rf /usr/local/go && tar -C /usr/local -xzf go1.22.4.linux-amd64.tar.gz
+          export PATH=$PATH:/usr/local/go/bin
+
+      - type: 'action-row'
+        id: install-tinygo
+        action-name: Install TinyGo
+        check: tinygo version
+        install: |
+          cd ~
+          wget https://github.com/tinygo-org/tinygo/releases/download/v0.31.2/tinygo_0.31.2_amd64.deb
+          sudo dpkg -i tinygo_0.31.2_amd64.deb
 
   #
   # Rust
