@@ -37,6 +37,7 @@ form:
             id: sdk_type
             name: Select SDK
             items:
+              - ESP-IDF
               - Zephyr
               - TinyGo
               - Rust
@@ -105,6 +106,54 @@ form:
             cd ~/esp-idf-${version}
             ./install.bat
             ./export.bat
+  - type: fieldset
+    id: fieldset_esp_idf
+    platform: linux
+    subitems:
+      - type: row
+        id: row_custom_esp_idf
+        subitems:
+          - type: combo
+            id: esp_idf_version
+            name: Select ESP-IDF Version
+            items:
+              - v5.3-beta1
+              - v5.2.2
+              - v5.1.4
+              - v5.2.1
+            variable: version
+      - type: 'action-row'
+        platform: win32
+        id: idf-install-scoop
+        action-name: Install Scoop
+        check: scoop --version
+        install: iwr -useb get.scoop.sh | iex
+
+      - type: 'action-row'
+        id: tinygo-install-python
+        action-name: Install Python
+        check: python3.9 --version
+        install: |
+            echo "xxxpassxxx" | sudo -S apt update
+            echo "xxxpassxxx" | sudo -S apt install -y software-properties-common
+            echo "xxxpassxxx" | sudo -S add-apt-repository ppa:deadsnakes/ppa -y
+            echo "xxxpassxxx" | sudo -S apt install -y python3.9 wget git cmake  ninja-build openocd
+
+      - type: 'action-row'
+        id: idf-install-sdk
+        action-name: Install ESP-IDF
+        check: test -d ~/esp-idf-${version}
+        install: |
+            cd ~
+            git clone -b ${version} --recursive https://github.com/espressif/esp-idf.git esp-idf-${version}
+      - type: 'action-row'
+        id: idf-install-tools
+        action-name: Install ESP-IDF Tools
+        check: test -d ~/esp-idf-${version}-xxx
+        install: |
+            cd ~/esp-idf-${version}
+            ./install.sh
+            ./export.sh
   #
   # TinyGo
   #
