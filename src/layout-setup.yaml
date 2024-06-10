@@ -64,6 +64,10 @@ form:
         platform: win32
         id: idf-install-scoop
         action-name: Install Scoop
+        banner: |
+            Installing Scoop as it will be used to install
+            more prerequisites for ESP-IDF that will be
+            installed in following steps.
         check: scoop --version
         install: iwr -useb get.scoop.sh | iex
       - type: 'action-row'
@@ -94,6 +98,8 @@ form:
       - type: 'action-row'
         id: idf-install-sdk
         action-name: Install ESP-IDF
+        variables:
+          - version
         check: if (Test-path ~/esp-idf-${version} -PathType container) { exit 0 } else { exit 1}
         install: |
             if (-not (Test-path ~/esp-idf-${version}.zip -PathType leaf)) { wget https://dl.espressif.com/github_assets/espressif/esp-idf/releases/download/${version}/esp-idf-${version}.zip -O ./esp-idf-${version}.zip }
@@ -101,6 +107,8 @@ form:
       - type: 'action-row'
         id: idf-install-tools
         action-name: Install ESP-IDF Tools
+        variables:
+          - version
         check: if (Test-path ~/esp-idf-${version}-xx -PathType container) { exit 0 } else { exit 1}
         install: |
             cd ~/esp-idf-${version}
@@ -142,6 +150,8 @@ form:
       - type: 'action-row'
         id: idf-install-sdk
         action-name: Install ESP-IDF
+        variables:
+          - version
         check: test -d ~/esp-idf-${version}
         install: |
             cd ~
@@ -149,6 +159,8 @@ form:
       - type: 'action-row'
         id: idf-install-tools
         action-name: Install ESP-IDF Tools
+        variables:
+          - version
         check: test -d ~/esp-idf-${version}-xxx
         install: |
             cd ~/esp-idf-${version}
