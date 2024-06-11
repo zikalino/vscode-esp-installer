@@ -1,53 +1,26 @@
 # ESP Installer
 
-ESP Installer is an extension simplifying setup of toolchains. This preview version support only Windows, however Linux and MacOS will be available in matter of weeks.
+ESP Installer is an effort to gather all the knowledge about various platforms that can be used to develop applications for Espressif chips in one place.
 
 Below is availability matrix:
 
 |Platform|Windows|Linux|MacOS|
 |--------|-------|-----|-----|
-|ESP IDF|+|||
-|Rust   |+|||
-|Zephyr |+|||
+|ESP IDF|+|+||
+|Rust   |+|+||
+|Zephyr |+|+||
 |Arduino||||
 |NuttX||||
 |Micropython||||
-|TinyGo|+|||
+|TinyGo|+|+||
 |DeviceScript||||
 |.NET NanoFramework||||
 
-## ESP IDF
 
-TBD
+The installer was built with following principles in mind:
 
-## Rust
+## Simplicity
 
-TBD
+## Transparency
 
-## Zephyr
-
-TBD
-
-## Arduino (CLI)
-
-TBD
-
-## NuttX
-
-TBD
-
-## MicroPython
-
-TBD
-
-## TinyGo
-
-TBD
-
-## DeviceScript
-
-TBD
-
-## .net NanoFramework
-
-TBD
+## Easy to contribute
