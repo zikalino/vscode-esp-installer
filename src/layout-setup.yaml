@@ -373,10 +373,9 @@ form:
       - type: 'action-row'
         id: zephyr-install-west
         action-name: Install west
-        check: ~/zephyrproject/.venv/Scripts/activate.ps1; west --version
+        check: ~/zephyrproject/.venv/Scripts/west --version
         install: |
-            ~/zephyrproject/.venv/Scripts/activate.ps1
-            pip install west
+            ~/zephyrproject/.venv/Scripts/pip install west
 
       - type: 'action-row'
         id: zephyr-get-source
@@ -384,13 +383,12 @@ form:
         check: if (Test-path ~/zephyrproject/.venv/Scripts/mooo -PathType leaf) { exit 0 } else { exit 1 }
         install: |
             cd ~
-            ./zephyrproject/.venv/Scripts/activate.ps1
-            west init zephyrproject
+            ~/zephyrproject/.venv/Scripts/west init zephyrproject
             cd zephyrproject
-            west update
-            west zephyr-export
-            pip install -r ./zephyr/scripts/requirements.txt
-            west blobs fetch hal_espressif
+            ~/zephyrproject/.venv/Scripts/west update
+            ~/zephyrproject/.venv/Scripts/west zephyr-export
+            ~/zephyrproject/.venv/Scripts/pip install -r ./zephyr/scripts/requirements.txt
+            ~/zephyrproject/.venv/Scripts/west blobs fetch hal_espressif
         # maybe last command should be separated
       - type: 'action-row'
         id: zephyr-download-sdk
