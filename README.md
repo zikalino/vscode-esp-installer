@@ -15,6 +15,7 @@ Below is availability matrix:
 |NuttX||||
 |Micropython||||
 |TinyGo|+|+||
+|Embedded Swift||||
 |DeviceScript||||
 |.NET NanoFramework||||
 
