@@ -268,12 +268,6 @@ form:
         install: cargo install espflash
 
       - type: 'action-row'
-        id: rust-install-cargo-generate
-        name: Install cargo-generate
-        verify: $out = cargo --list; if ($out -like '*generate    *') { exit 0 } else { exit 1 }
-        install: cargo install cargo-generate
-
-      - type: 'action-row'
         id: run-espup
         name: Run espup
         verify: if (Test-Path -Path '~/export-esp.ps1')  { exit 0 } else { exit 1 }
@@ -296,6 +290,15 @@ form:
         name: Add taget baremetal (ESP32-C2, ESP32-C3)
         verify: $out = rustup show; if ($out -like '*riscv32imac-unknown-none-elf*') { exit 0 } else { exit 1 }
         install: rustup target add riscv32imac-unknown-none-elf
+
+      - type: 'action-row'
+        id: rust-install-cargo-generate
+        name: Install cargo-generate
+        banner: |
+            Installing cargo-generate is required in order to create
+            sample Hello World application in the last step.
+        verify: $out = cargo --list; if ($out -like '*    generate*') { exit 0 } else { exit 1 }
+        install: cargo install cargo-generate
 
       - type: 'action-row'
         id: rust-build-hello-world
