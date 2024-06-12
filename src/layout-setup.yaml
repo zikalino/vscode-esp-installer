@@ -253,6 +253,7 @@ form:
         name: Install Rust Up
         verify: rustup --version
         install: scoop install rustup-gnu
+        uninstall: scoop uninstall rustup-gnu
 
       - type: 'action-row'
         id: install-espup
@@ -265,6 +266,12 @@ form:
         name: Install espflash
         verify: espflash --version
         install: cargo install espflash
+
+      - type: 'action-row'
+        id: rust-install-cargo-generate
+        name: Install cargo-generate
+        verify: $out = cargo --list; if ($out -like '*generate    *') { exit 0 } else { exit 1 }
+        install: cargo install cargo-generate
 
       - type: 'action-row'
         id: run-espup
@@ -289,6 +296,16 @@ form:
         name: Add taget baremetal (ESP32-C2, ESP32-C3)
         verify: $out = rustup show; if ($out -like '*riscv32imac-unknown-none-elf*') { exit 0 } else { exit 1 }
         install: rustup target add riscv32imac-unknown-none-elf
+
+      - type: 'action-row'
+        id: rust-build-hello-world
+        name: Build Hello World
+        verify: if (Test-Path -Path '~/rust-hello-world')  { exit 0 } else { exit 1 }
+        install: |
+              cd ~
+              cargo generate esp-rs/esp-template --name rust-hello-world --silent
+              cd rust-hello-world
+              cargo build
 
   - type: fieldset
     id: fieldset_rust
