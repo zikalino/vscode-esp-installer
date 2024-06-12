@@ -20,6 +20,7 @@ form:
               - Rust
               - Zephyr
               - TinyGo
+              - Embedded Swift
               - MicroPython
               - NuttX
               - DeviceScript

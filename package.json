@@ -2,7 +2,7 @@
   "name": "vscode-esp-installer",
   "displayName": "ESP Installer",
   "description": "ESP Toolchain Installer",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "repository": "https://github.com/zikalino/vscode-esp-installer",
   "publisher": "zikalinox",
   "engines": {
@@ -15,10 +15,6 @@
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
-      {
-        "command": "vscode-esp-installer.displayInstallerWelcome",
-        "title": "espressif: Installer - Welcome"
-      },
       {
         "command": "vscode-esp-installer.displayInstallerView",
         "title": "espressif: Installer"
