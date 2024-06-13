@@ -113,8 +113,20 @@ form:
         verify: if (Test-path ~/esp-idf-${version}-xx -PathType container) { exit 0 } else { exit 1}
         install: |
             cd ~/esp-idf-${version}
-            ./install.bat
-            ./export.bat
+            ./install.ps1
+            ./export.ps1
+      - type: 'action-row'
+        id: idf-build-hello-world
+        name: Build Hello World Example
+        variables:
+          - version
+        verify: if (Test-path ~/esp-idf-${version}/examples/get-started/hello_world/build/hello_world.bin -PathType leaf) { exit 0 } else { exit 1}
+        install: |
+            cd ~/esp-idf-${version}
+            ./export.ps1
+            cd ~/esp-idf-${version}/examples/get-started/hello_world
+            idf.py build
+            
   - type: fieldset
     id: fieldset_esp_idf
     platform: linux
